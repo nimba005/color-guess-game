@@ -5,11 +5,17 @@ function App() {
   const [targetColor, setTargetColor] = useState("");
   const [score, setScore] = useState(0);
   const [gameStatus, setGameStatus] = useState("");
-  const colors = Array.from({ length: 6 }, () => getRandomColor());
+  const [colors, setColors] = useState([])
 
   useEffect(() => {
-    setTargetColor(colors[Math.floor(Math.random() * colors.length)]);
+    generateNewColors();
   }, []);
+
+  function generateNewColors() {
+    const newColors = Array.from({ length: 6 }, () => getRandomColor());
+    setColors(newColors);
+    setTargetColor(newColors[Math.floor(Math.random() * newColors.length)]);
+  }
 
   function getRandomColor() {
     const r = Math.floor(Math.random() * 256);
@@ -21,7 +27,7 @@ function App() {
   function handleColorGuess(color) {
     if (color === targetColor) {
       setGameStatus("Correct!");
-      setScore((prevScore) => prevScore + 1);
+      setScore(score + 1);
     } else {
       setGameStatus("Wrong! Try Again.");
     }
@@ -29,7 +35,7 @@ function App() {
 
   function handleNewGame() {
     setGameStatus("");
-    setTargetColor(colors[Math.floor(Math.random() * colors.length)]);
+    generateNewColors();
   }
 
   return (
