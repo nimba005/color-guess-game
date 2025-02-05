@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   const [targetColor, setTargetColor] = useState("");
-  const [score, setScore] = useEffect(0);
+  const [score, setScore] = useState(0);
   const [gameStatus, setGameStatus] = useState("");
   const colors = Array.from({ length: 6 }, () => getRandomColor());
 
@@ -21,7 +21,7 @@ function App() {
   function handleColorGuess(color) {
     if (color === targetColor) {
       setGameStatus("Correct!");
-      setScore(score + 1);
+      setScore((prevScore) => prevScore + 1);
     } else {
       setGameStatus("Wrong! Try Again.");
     }
