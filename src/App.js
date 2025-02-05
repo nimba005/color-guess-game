@@ -8,13 +8,14 @@ function App() {
   const [colors, setColors] = useState([])
 
   useEffect(() => {
-    generateNewColors();
+    startNewRound();
   }, []);
 
-  function generateNewColors() {
+  function startNewRound() {
     const newColors = Array.from({ length: 6 }, () => getRandomColor());
     setColors(newColors);
     setTargetColor(newColors[Math.floor(Math.random() * newColors.length)]);
+    setGameStatus("");
   }
 
   function getRandomColor() {
@@ -28,14 +29,16 @@ function App() {
     if (color === targetColor) {
       setGameStatus("Correct!");
       setScore(score + 1);
+      setTimeout(startNewRound, 1000);
     } else {
-      setGameStatus("Wrong! Try Again.");
+      setGameStatus("Wrong! Game Over.");
     }
   }
 
-  function handleNewGame() {
+  function resetGame() {
+    setScore(0);
     setGameStatus("");
-    generateNewColors();
+    startNewRound();
   }
 
   return (
@@ -53,14 +56,17 @@ function App() {
             data-testid="colorOption"
             style={{ backgroundColor: color }}
             onClick={() => handleColorGuess(color)}
+            disabled={gameStatus === "Wrong! Game Over."}
           ></button>
         ))}
       </div>
       <p data-testid="gameStatus">{gameStatus}</p>
       <p data-testid="score">Score: {score}</p>
-      <button data-testid="newGameButton" onClick={handleNewGame}>
-        New Game
-      </button>
+      {gameStatus === "Wrong! Game Over." ? (
+        <button data-testid="newGameButton" onClick={resetGame}>
+          New Game
+        </button>
+      ) : null}
     </div>
   );
 }
