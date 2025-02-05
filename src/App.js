@@ -62,11 +62,9 @@ function App() {
       </div>
       <p data-testid="gameStatus">{gameStatus}</p>
       <p data-testid="score">Score: {score}</p>
-      {gameStatus === "Wrong! Game Over." ? (
-        <button data-testid="newGameButton" onClick={resetGame}>
-          New Game
-        </button>
-      ) : null}
+      <button data-testid="newGameButton" onClick={resetGame}>
+        New Game
+      </button>
     </div>
   );
 }
